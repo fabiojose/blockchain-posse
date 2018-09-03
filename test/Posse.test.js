@@ -8,7 +8,11 @@ contract("Posse", function(accounts){
     descricao: 'Automóvel xxx, chassi xxxx, ano/modelo 2010/2011'
   };
 
+  // Valor em ETH
   const valor = 50;
+
+  // Valor em WEI
+  const valor_wei = web3.toWei(valor, "ether");
 
   const dono      = accounts[1];
   const comprador = accounts[2];
@@ -37,16 +41,16 @@ contract("Posse", function(accounts){
 
   });
 
-  it("objeto deve possuir o preço igual a " + valor, function(){
+  it("objeto deve possuir o preço igual a " + valor + " ETH", function(){
     
     var posse;
     return Posse.new(OBJETO.id, OBJETO.nome, OBJETO.descricao, {from: dono}).then(function(instancia){
       posse = instancia;
     }).then(function(){
-      posse.preco(valor, {from: dono});
+      posse.preco(valor_wei, {from: dono});
       return posse.valor();
     }).then(function(_valor){
-      assert.equal(valor, _valor.toString(), "O valor do objeto está incorreto");
+      assert.equal(valor_wei.toString(), _valor.toString(), "O valor do objeto está incorreto");
     });
 
   });
@@ -57,9 +61,9 @@ contract("Posse", function(accounts){
     return Posse.new(OBJETO.id, OBJETO.nome, OBJETO.descricao, {from: dono}).then(function(instancia){
       posse = instancia;
     }).then(function(){
-      return posse.preco(valor, {from: dono});
+      return posse.preco(valor_wei, {from: dono});
     }).then(function(){
-      return posse.comprar({from: comprador, value: valor});
+      return posse.comprar({from: comprador, value: valor_wei});
     }).then(function(){
       return posse.dono();
     }).then(function(_dono){
