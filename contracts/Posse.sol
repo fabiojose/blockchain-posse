@@ -64,4 +64,13 @@ contract Posse {
     /// Lançar evento sobre a venda da posse
     emit Comprada(msg.sender, msg.value);
   }
+
+  /// Comprar parcelado.
+  /// *Apenas* para ilustrar a sobrecarga de método
+  function comprar(uint parcelas) public payable {
+    
+    require(parcelas >=0, "Número de parcelas inválido");
+    require(parcelas <= 3, "Número de parcelas deve ser no máximo igual a 3");
+
+  }
 }
