@@ -61,6 +61,8 @@ contract("Posse", function(accounts){
     return Posse.new(OBJETO.id, OBJETO.nome, OBJETO.descricao, {from: dono}).then(function(instancia){
       posse = instancia;
     }).then(function(){
+      return posse.liberar({from: dono});
+    }).then(function(){
       return posse.preco(valor_wei, {from: dono});
     }).then(function(){
       return posse.comprar({from: comprador, value: valor_wei});
