@@ -55,6 +55,9 @@ contract Posse {
     /// O valor da compra deve ser idêntico ao valor do objeto
     require(msg.value == valor, "O valor da compra está errado");
 
+    /// Transferir o valor pago ao antigo dono
+    dono.transfer(msg.value);
+
     /// Atribuir novo dono
     dono = msg.sender;
 
