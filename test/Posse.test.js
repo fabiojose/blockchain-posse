@@ -16,6 +16,7 @@ contract("Posse", function(accounts){
 
   const dono      = accounts[1];
   const comprador = accounts[2];
+  const doacao    = accounts[3];
 
   it("dono do objeto deve ser a conta " + dono, function(){
     
@@ -70,6 +71,25 @@ contract("Posse", function(accounts){
       return posse.dono();
     }).then(function(_dono){
       assert.equal(comprador, _dono, "O dono do objeto está incorreto");
+    });
+
+  });
+
+  it("após doar, o novo dono deverá ser a conta " + doacao, function(){
+    
+    var posse;
+    return Posse.new(OBJETO.id, OBJETO.nome, OBJETO.descricao, {from: dono}).then(function(instancia){
+      posse = instancia;
+    }).then(function(){
+      return posse.liberar({from: dono});
+    }).then(function(){
+      return posse.preco(valor_wei, {from: dono});
+    }).then(function(){
+      return posse.doar(doacao, {from: dono});
+    }).then(function(){
+      return posse.dono();
+    }).then(function(_dono){
+      assert.equal(_dono, doacao, "O dono do objeto está incorreto");
     });
 
   });

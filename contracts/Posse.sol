@@ -29,7 +29,10 @@ contract Posse {
   event PrecoAtualizado(uint id, string objeto, uint valor);
 
   /// Evento lançado toda vez que a posse for vendida para novo dono
-  event Comprada(address novo, uint valor);
+  event Comprada(address novo, uint objetoId, string objeto, uint valor);
+
+  /// Evento lançado toda vez que a posse for doada
+  event Doada(address novo, uint objetoId, string objeto);
 
   /// Construtor do contrato de Posse.
   ///  *ATENÇÃO* Apenas um construtor é permitido.
@@ -90,6 +93,24 @@ contract Posse {
     avenda = false;
 
     /// Lançar evento sobre a venda da posse
-    emit Comprada(msg.sender, msg.value);
+    emit Comprada(msg.sender, objeto.id, objeto.nome, msg.value);
+  }
+
+  /// Doar a posse do objeto
+  function doar(address destino) public {
+    
+    /// Somente o dono pode doar
+    require(msg.sender == dono, "Somente o dono pode doar a posse");
+
+    /// Destino não pode ser o dono
+    require(destino != dono, "A doação não deve ser para si mesmo");
+
+    /// Atribuir novo dono
+    dono = destino;
+
+    /// Objeto volta a bloquear sua venda
+    avenda = false;
+
+    emit Doada(destino, objeto.id, objeto.nome);
   }
 }
