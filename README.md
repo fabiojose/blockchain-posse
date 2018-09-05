@@ -32,5 +32,5 @@ Smart Contract para transferência de posse, escrito em Solidity sobre Ethereum
   truffle deploy --network <nome_da_rede>
 ```
 
-A rede deverá ser previamente configurada no arquivo `truffle.js`.
+A rede `<nome_da_rede>` deverá ser previamente configurada no arquivo `truffle.js`.
 
